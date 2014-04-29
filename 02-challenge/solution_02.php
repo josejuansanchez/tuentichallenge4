@@ -95,7 +95,6 @@ class Challenge02
 
 		// Orientation: H (Horizontal), V (Vertical)
 		// Movement: T (Top), D (Down), R (Right), L (Left)
-
 		$len = strlen($this->track);
 		for($k=0; $k<$len; $k++) {
 			switch ($this->track[$k]) {
