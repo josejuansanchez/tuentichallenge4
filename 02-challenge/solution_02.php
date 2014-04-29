@@ -79,7 +79,6 @@ class Challenge02
 	 */
 	private function print_track() {
 
-		// TEST
 		// Initialize a matrix with blank spaces
 		for($i=0; $i<$this->max_dimension*4; $i++) {
 			for($j=0; $j<$this->max_dimension*4; $j++) {
