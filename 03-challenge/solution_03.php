@@ -62,8 +62,10 @@ class Challenge03
 	 */
 	private function print_output() {
 		for($i = 0; $i < $this->number_of_cases; $i++ ) {
-			echo $this->gambler_algorithm($this->list_of_cases[$i]["x"],
-										  $this->list_of_cases[$i]["y"])."\n";
+			echo $this->gambler_algorithm(
+							$this->list_of_cases[$i]["x"],
+							$this->list_of_cases[$i]["y"]).
+							"\n";
 		}	
 
 	}
