@@ -38,15 +38,10 @@ class Challenge02
 	/**
 	 * Read the input from the server
 	 */
-	private function read_input_from_server() {
-		/*
+	private function read_input_from_server() {		
 		$fin = fopen("php://stdin", "r");
 		$this->track = fgets($fin);
 		fclose($fin);	
-		*/
-		
-		//$this->track = "#----\-----/-----\-----/";
-		$this->track = "------\-/-/-\-----#-------\--/----------------\--\----\---/---";
 	}
 
 	/**
@@ -85,15 +80,22 @@ class Challenge02
 	private function print_track() {
 
 		// TEST
-		for($i=0; $i<$this->max_dimension*2; $i++) {
-			for($j=0; $j<$this->max_dimension*2; $j++) {
+		// Initialize a matrix with blank spaces
+		for($i=0; $i<$this->max_dimension*4; $i++) {
+			for($j=0; $j<$this->max_dimension*4; $j++) {
 				$t[$i][$j] = ' ';
 			}
 		}
-		$i = $this->max_dimension;
-		$j = $this->max_dimension;
+		
+		// Set the initial coordinates
+		$i = $this->max_dimension*2;
+		$j = $this->max_dimension*2;
 
+		// Set the matrix with the symbols of the track
 		$current_orientation = 'H';
+
+		// Orientation: H (Horizontal), V (Vertical)
+		// Movement: T (Top), D (Down), R (Right), L (Left)
 
 		$len = strlen($this->track);
 		for($k=0; $k<$len; $k++) {
@@ -104,73 +106,79 @@ class Challenge02
 
 						$next_orientation = 'V';
 
-						if ($last == "T") $i--;
-						if ($last == "D") $i++;
+						if ($last_movement == "T") $i--;
+						if ($last_movement == "D") $i++;
 					} else {
 
 						$t[$i][$j] = "-";
 
 						$next_orientation = 'H';
 
-						if ($last == "R") $j++;
-						if ($last == "L") $j--;
+						if ($last_movement == "R") $j++;
+						if ($last_movement == "L") $j--;
 					}
 					break;
 
 				case '\\':
-
 					$t[$i][$j] = "\\";
 
 					if ($current_orientation == 'H') {		
 						$next_orientation = 'V';
 						
-						if ($last == "R") { $i++; $last = "D"; }
-						if ($last == "L") { $i--; $last = "T"; }
+						if ($last_movement == "R") { $i++; $last_movement = "D"; }
+						if ($last_movement == "L") { $i--; $last_movement = "T"; }
 					} else {
 						$next_orientation = 'H';
 						
-						if ($last == "T") { $j--; $last = "L"; }
-						if ($last == "D") { $j++; $last = "R"; }
+						if ($last_movement == "T") { $j--; $last_movement = "L"; }
+						if ($last_movement == "D") { $j++; $last_movement = "R"; }
 					}
 					break;
 
 				case '/':
-
 					$t[$i][$j] = "/";
 
 					if ($current_orientation == 'H') {		
 						$next_orientation = 'V';
 						
-						if ($last == "R") { $i--; $last = "T"; }
-						if ($last == "L") { $i++; $last = "D"; }
+						if ($last_movement == "R") { $i--; $last_movement = "T"; }
+						if ($last_movement == "L") { $i++; $last_movement = "D"; }
 
 					} else {
 						$next_orientation = 'H';
 						
-						if ($last == "T") { $j++; $last = "R"; }
-						if ($last == "D") { $j--; $last = "L"; }
+						if ($last_movement == "T") { $j++; $last_movement = "R"; }
+						if ($last_movement == "D") { $j--; $last_movement = "L"; }
 					}		
 					break;		
 
 				case '#':					
 					$t[$i][$j] = "#";
 					$next_orientation = 'H';
-					$last = "R";
+					$last_movement = "R";
 					$j++;
 					break;
 			}
-
 			$current_orientation = $next_orientation;
 		}
 
-		// TEST
-		for($i=0; $i<$this->max_dimension*2; $i++) {
+		// Find the column index where appears the first symbol
+		$col_index = -1;
+		for($j=0; ($j<$this->max_dimension*4) && ($col_index==-1); $j++) {
+			for($i=0; ($i<$this->max_dimension*4) && ($col_index==-1); $i++) {
+				if ($t[$i][$j]!=' ') { 
+					$col_index = $j;
+				}
+			}
+		}
+
+		// Print the matrix with the format expected by Tuenti
+		for($i=0; $i<$this->max_dimension*4; $i++) {
 			$line ="";
-			for($j=0; $j<$this->max_dimension*2; $j++) {
-				//echo $t[$i][$j];
+			for($j=$col_index; $j<$this->max_dimension*4; $j++) {
 				$line .= $t[$i][$j];
 			}
-			if (strlen(trim($line)) > 0) echo $line."\n";
+			if (strlen(trim($line)) > 0) echo rtrim($line)."\n";
 		}
 
 	}
