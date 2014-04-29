@@ -1,7 +1,7 @@
 #!/bin/bash
 
-// José Juan Sánchez Hernández
-// @josejuansanchez
+# José Juan Sánchez Hernández
+# @josejuansanchez
 
 FILE=students
 SORTED_FILE=students_sorted_file
