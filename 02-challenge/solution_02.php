@@ -11,7 +11,7 @@ class Challenge02
 	/**
 	 * Hold an instance of the class
 	 */	
-    private static $instance;
+ 	private static $instance;
 
 	/**
 	 * A plain text line that represents the track
@@ -27,13 +27,13 @@ class Challenge02
 	/**
 	 * The singleton method
 	 */
-    public static function singleton()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new Challenge02;
-        }
-        return self::$instance;
-    }
+	public static function singleton()
+	{
+	    if (!isset(self::$instance)) {
+	        self::$instance = new Challenge02;
+	    }
+	    return self::$instance;
+	}
 
 	/**
 	 * Read the input from the server
