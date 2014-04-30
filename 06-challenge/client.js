@@ -10,8 +10,8 @@ var util = require('util');
 var crypto = require('crypto');
 
 var options = {
-	'port': 6767,
-	'host': '0.0.0.0',
+	'port': 6969,
+	'host': '54.83.207.90',
 }
 
 const KEYPHRASE = 'YOUR KEYPHRASE';
@@ -19,13 +19,15 @@ const KEYPHRASE = 'YOUR KEYPHRASE';
 var dh, secret, state = 0;
 
 var socket = net.connect(options, function() {
-	socket.write('hello?');
-	state++;
+	//socket.write('hello?');
+	//state++;
 });
 
 socket.on('data', function(data) {
 
 	data = data.toString().trim().split('|');
+
+	//console.log(data);
 
 	if (state == 1 && data[0] == 'hello!') {
 		dh = crypto.createDiffieHellman(256);
@@ -43,9 +45,14 @@ socket.on('data', function(data) {
 		var message = decipher.update(data[1], 'hex', 'utf8') + decipher.final('utf8');
 		console.log(message);
 		socket.end();
+	} else if (data == 'CLIENT->SERVER:hello?') {
+		console.log("* CLIENT->SERVER:hello?");
+		socket.write('hello?');
+	} else if (data == 'SERVER->CLIENT:hello!') {
+		console.log("* SERVER->CLIENT:hello!");
+		socket.write('hello!');
 	} else {
-		console.log('Error');
-		socket.end();
+		console.log('* Message: ' + data);
+		//socket.end();
 	}
-
 });
