@@ -14,45 +14,54 @@ var options = {
 	'host': '54.83.207.90',
 }
 
-const KEYPHRASE = 'YOUR KEYPHRASE';
+const KEYPHRASE = 'MacaroniAndCheeseTightBeaverIsFrequent';
 
-var dh, secret, state = 0;
+var client_dh, client_prime, client_publicKey, client_keyphrase;
+var server_secret, server_dh, server_secret, server_keyphrase;
 
-var socket = net.connect(options, function() {
-	//socket.write('hello?');
-	//state++;
-});
+var socket = net.connect(options, function() {});
 
 socket.on('data', function(data) {
 
-	data = data.toString().trim().split('|');
+	data_header = data.toString().trim().split(':');
+	data_body = data_header[1].toString().trim().split('|');
 
-	//console.log(data);
+	if (data_header[0] == 'CLIENT->SERVER' && data_body[0] == 'hello?') {
+		socket.write(data_body[0]);
+	} else if (data_header[0] == 'SERVER->CLIENT' && data_body[0] == 'hello!') {
+		socket.write(data_body[0]);
+	} else if (data_header[0] == 'CLIENT->SERVER' && data_body[0] == 'key') {
+		// Store the values sended by the client
+		client_prime = data_body[1];
+		client_publicKey = data_body[2];
 
-	if (state == 1 && data[0] == 'hello!') {
-		dh = crypto.createDiffieHellman(256);
-		dh.generateKeys();
-		socket.write(util.format('key|%s|%s\n', dh.getPrime('hex'), dh.getPublicKey('hex')));
-		state++;
-	} else if (state == 2 && data[0] == 'key') {
-		secret = dh.computeSecret(data[1], 'hex');
-		var cipher = crypto.createCipheriv('aes-256-ecb', secret, '');
-		var keyphrase = cipher.update(KEYPHRASE, 'utf8', 'hex') + cipher.final('hex');
-		socket.write(util.format('keyphrase|%s\n', keyphrase));
-		state++;
-	} else if (state == 3 && data[0] == 'result') {
-		var decipher = crypto.createDecipheriv('aes-256-ecb', secret, '');
-		var message = decipher.update(data[1], 'hex', 'utf8') + decipher.final('utf8');
+		// Send the fake message to the server
+		server_dh = crypto.createDiffieHellman(256);
+		server_dh.generateKeys();		
+		socket.write(util.format('key|%s|%s\n', server_dh.getPrime('hex'), server_dh.getPublicKey('hex')));
+
+	} else if (data_header[0] == 'SERVER->CLIENT' && data_body[0] == 'key') {
+		// Store the values sended by the server
+		server_secret = server_dh.computeSecret(data_body[1], 'hex');
+		var cipher = crypto.createCipheriv('aes-256-ecb', server_secret, '');
+		server_keyphrase = cipher.update(KEYPHRASE, 'utf8', 'hex') + cipher.final('hex');
+
+		// Send the fake response to the client
+		client_dh = crypto.createDiffieHellman(client_prime, 'hex');
+		client_dh.generateKeys();
+		client_secret = client_dh.computeSecret(client_publicKey, 'hex');
+		socket.write(util.format('key|%s\n', client_dh.getPublicKey('hex')));
+
+	} else if (data_header[0] == 'CLIENT->SERVER' && data_body[0] == 'keyphrase') {
+		// Store the values from the client
+		client_keyphrase = data_body[1];
+
+		// Send the fake response to the server
+		socket.write(util.format('keyphrase|%s\n', server_keyphrase));
+	} else if (data_header[0] == 'SERVER->CLIENT' && data_body[0] == 'result') {
+		var decipher = crypto.createDecipheriv('aes-256-ecb', server_secret, '');
+		var message = decipher.update(data_body[1], 'hex', 'utf8') + decipher.final('utf8');
 		console.log(message);
 		socket.end();
-	} else if (data == 'CLIENT->SERVER:hello?') {
-		console.log("* CLIENT->SERVER:hello?");
-		socket.write('hello?');
-	} else if (data == 'SERVER->CLIENT:hello!') {
-		console.log("* SERVER->CLIENT:hello!");
-		socket.write('hello!');
-	} else {
-		console.log('* Message: ' + data);
-		//socket.end();
 	}
 });
