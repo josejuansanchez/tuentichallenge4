@@ -43,7 +43,7 @@ class Challenge05
 	/**
 	 * Read the input from the server
 	 */
-	private function read_input_from_server() {		
+	private function read_input_from_server() {			
 		$fin = fopen("php://stdin", "r");
 		while (!feof($fin)) {
 			$line = trim(fgets($fin),"\n");
@@ -59,56 +59,111 @@ class Challenge05
 	 */
 	private function calculate_next_generation() {
 
-		for($i=0; $i<$this->GRID_SIZE; $i++) {
-			$cont = 0;
+		// Initialize the next generation
+		$next_generation = $this->initialize_next_generation();
+
+		for($i=0; $i<$this->GRID_SIZE; $i++) {			
 			for($j=0; $j<$this->GRID_SIZE; $j++) {
-				if (($i-1>=0) && ($i+1<$this->GRID_SIZE) &&
-					($j-1>=0) && ($j+1<$this->GRID_SIZE)) {
 
-					// Count the neighbors
-					if ($this->grid[$i-1][$j-1] == 'X') $cont++;
-					if ($this->grid[$i-1][$j] == 'X') $cont++;
-					if ($this->grid[$i-1][$j+1] == 'X') $cont++;
-					if ($this->grid[$i][$j-1] == 'X') $cont++;
-					if ($this->grid[$i][$j+1] == 'X') $cont++;
-					if ($this->grid[$i+1][$j-1] == 'X') $cont++;
-					if ($this->grid[$i+1][$j] == 'X') $cont++;
-					if ($this->grid[$i-1][$j+1] == 'X') $cont++;
+				$cont = 0;
 
-					// Apply the rules of the "game of the life"
-					if (($this->grid[$i][$j] == 'X') && (($cont==2) || ($cont==3))) {
-						$next_generation[$i][$j] = 'X';
-					}
-					else if (($this->grid[$i][$j] == 'X') && ($cont>3)) {
-						$next_generation[$i][$j] = '-';
-					}
-					else if (($this->grid[$i][$j] == '-') && ($cont==3)) {
-						$next_generation[$i][$j] = 'X';
-					}
-					else {
-						$next_generation[$i][$j] = '-';
-					}
-				} else {
+				// Count the neighbors
+				if (($i-1>=0) && ($j-1>=0) && ($this->grid[$i-1][$j-1] == 'X')) $cont++;
+				if (($i-1>=0) && ($this->grid[$i-1][$j] == 'X')) $cont++;
+				if (($i-1>=0) && ($j+1<$this->GRID_SIZE) && ($this->grid[$i-1][$j+1] == 'X')) $cont++;
+				if (($j-1>=0) && ($this->grid[$i][$j-1] == 'X')) $cont++;
+				if (($j+1<$this->GRID_SIZE) && ($this->grid[$i][$j+1] == 'X')) $cont++;
+				if (($i+1<$this->GRID_SIZE) && ($j-1>=0) && ($this->grid[$i+1][$j-1] == 'X')) $cont++;
+				if (($i+1<$this->GRID_SIZE) && ($this->grid[$i+1][$j] == 'X')) $cont++;
+				if (($i+1<$this->GRID_SIZE) && ($j+1<$this->GRID_SIZE) && ($this->grid[$i+1][$j+1] == 'X')) $cont++;
+
+				// Apply the rules of the "game of the life"
+				if (($this->grid[$i][$j] == 'X') && (($cont==2) || ($cont==3))) {
+					$next_generation[$i][$j] = 'X';
+				}
+				else if (($this->grid[$i][$j] == 'X') && ($cont>3)) {
+					$next_generation[$i][$j] = '-';
+				}
+				else if (($this->grid[$i][$j] == '-') && ($cont==3)) {
+					$next_generation[$i][$j] = 'X';
+				}
+				else {
 					$next_generation[$i][$j] = '-';
 				}
 			}
 		}
 
-		// TEST
+		return $next_generation;
+	}
+
+	/**
+	 *  Print a grid
+	 */
+	private function print_grid($g) {
 		for($i=0; $i<$this->GRID_SIZE; $i++) {
 			for($j=0; $j<$this->GRID_SIZE; $j++) {
-				echo $next_generation[$i][$j];
+				echo $g[$i][$j];
 			}
 			echo "\n";
 		}
+		echo "\n";
 	}
 
+	/**
+	 *  Initialize the next generation
+	 */
+	private function initialize_next_generation() {
+		for($i=0; $i<$this->GRID_SIZE; $i++) {
+			for($j=0; $j<$this->GRID_SIZE; $j++) {
+				$ng[$i][$j] = '-';
+			}
+		}
+		return $ng;
+	}
+
+	/**
+	 *  Compare two grids
+	 */
+	private function compare_grids($ga, $gb) {
+		$are_the_same = 1;
+		for($i=0; ($i<$this->GRID_SIZE) && ($are_the_same == 1); $i++) {
+			for($j=0; ($j<$this->GRID_SIZE) && ($are_the_same == 1); $j++) {
+				if ($ga[$i][$j] != $gb[$i][$j]) {
+					$are_the_same = 0;
+				}				
+			}
+		}
+		return $are_the_same;
+	}	
 
 	/**
 	 *  Print the solution of the challenge
 	 */
 	private function print_output() {
-		//print_r($this->grid);
+
+		$got_solution = 0;
+		for($k=0; ($k < 100) && (!$got_solution); $k++) {
+			// Calculate the next generation and update the history
+			$next_generation = $this->calculate_next_generation();
+			//$this->print_grid($next_generation);
+			$this->history[] = $next_generation;
+
+			// Update the current grid
+			$this->grid = $next_generation;
+
+			// Compare the grids to find if there are two grids with the same values
+			$ne = count($this->history);
+			for($i=$ne-2; $i>=0; $i--) {
+				if ($this->compare_grids($this->history[$ne-1],$this->history[$i])) {
+					$generation = $i;
+					$period = ($ne-1-$i);
+					$got_solution = 1;
+					echo "$generation $period";
+					break;
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -116,7 +171,7 @@ class Challenge05
 	 */
 	public function solve() {
 		$this->read_input_from_server();
-		$this->calculate_next_generation();
+		$this->history[] = $this->grid;
 		$this->print_output();
 	}
 }
