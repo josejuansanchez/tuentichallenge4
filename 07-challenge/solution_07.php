@@ -49,60 +49,32 @@ class Challenge07
 	 * Read the input from the server
 	 */
 	private function read_input_from_server() {
-		/*
 		$fin = fopen("php://stdin", "r");
 		$this->id_a = trim(fgets($fin),"\n");;
 		$this->id_b = trim(fgets($fin),"\n");;		
 		fclose($fin);		
-		*/
-		$this->id_a = "54936654";
-		$this->id_b = "576171409";
-	}
-
-	/**
-	 * Check the phone call log
-	 */
-	private function check_log() {
-		
-		$search      = "54936654";
-		//$search      = "111111111";
-		
-		$line_number = false;
-
-		if ($handle = fopen("phone_call.log", "r")) {
-		   $count = 0;
-		   while (($line = fgets($handle, 4096)) !== FALSE and !$line_number) {
-		      $count++;
-		      $line_number = (strpos($line, $search) !== FALSE) ? $count : $line_number;
-		      echo "*** $line ***";
-		   }
-		   fclose($handle);
-		}
-
-		if ($line_number) {
-			echo "ID: $search \n";
-			echo "Line: $line_number \n";
-
-			$file = new SplFileObject('phone_call.log');
-			$file->seek($line_number-1);
-			echo $file->current();
-		} else {
-			echo "Not connected";
-		}		
 	}
 
 	/**
 	 *  Returns the list of occurrences with the given id
 	 */
 	private function get_occurrences($id) {
-		$f = fopen($this->FILENAME, "r");
-		$number_of_line = 0;
+	
+		$number_of_line = 0;		
+		$occurrences = [];
 		$ne = 0;
+
+		$f = fopen($this->FILENAME, "r");		
 		while (($line = fgets($f, 4096)) !== FALSE) {
 			if (strpos($line, $id) !== FALSE) {
-				$occurrences[$ne]["id"] = trim(str_replace($id, "", $line))."\n";
-				$occurrences[$ne]["nol"] = $number_of_line;
-				$ne++;
+
+				$id_found = trim(str_replace($id, "", $line));
+
+				if (!in_array($id_found, $occurrences)) {
+					$occurrences[$ne]["id"] = $id_found;
+					$occurrences[$ne]["nol"] = $number_of_line;
+					$ne++;
+				}
 			}
 			$number_of_line++;
 		}
@@ -110,16 +82,31 @@ class Challenge07
 		return $occurrences;		
 	}
 
+
+	/**
+	 *  Search the id b in the contact list
+	 */
+	private function search_id_b_in_contacts($contacts) {
+		for($k=0; $k<count($contacts); $k++) {
+			if ($contacts[$k]["id"] == $this->id_b) {
+				echo "Connected at ".$contacts[$k]["nol"];
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 *  Print the solution of the challenge
 	 */
 	private function print_output() {
 		
+		// No limits for the maximum execution time
+		set_time_limit(0);
+
 		// Check if the given ids have contacts
 		$contacts = $this->get_occurrences($this->id_a);
 		$ne = count($contacts);
-
-		print_r($contacts);
 
 		if ($ne<=0) {
 			echo "Not connected";
@@ -131,14 +118,38 @@ class Challenge07
 			return;			
 		}
 
-		/*
+		// Search the id b in the contact list
+		if ($this->search_id_b_in_contacts($contacts)) return;
+
 		$this->checked[] = $this->id_a;
 		$found = 0;
+		$end = 0;
+		$i = 0;
 
-		while ((!$found) && ($ne>0)) {
+		while ((!$found) && ($i<count($contacts))) {
+
+			// If the id has been checked
+			if (in_array($contacts[$i], $this->checked)) {
+				$i++;
+				continue;
+			}
+			
+			// If the id has not been checked
 			$this->checked[] = $contacts[$i];
+
+			// Get the contacts associated with the id: $contacts[$i]
+			$temp_contacts = $this->get_occurrences($contacts[$i]["id"]);
+
+			// Search the id b in the contact list
+			if ($this->search_id_b_in_contacts($contacts)) return;
+
+			$aux = array_merge(array_slice($contacts, 0, $i+1, true),
+    			   array_slice($temp_contacts, 0, count($temp_contacts), true),
+    			   array_slice($contacts, $i+1, count($contacts), true));
+			
+			$contacts = $aux;
+			$i++;
 		}
-		*/
 	}
 
 	/**
