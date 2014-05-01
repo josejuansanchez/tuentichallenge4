@@ -122,11 +122,10 @@ class Challenge07
 		if ($this->search_id_b_in_contacts($contacts)) return;
 
 		$this->checked[] = $this->id_a;
-		$found = 0;
 		$end = 0;
 		$i = 0;
 
-		while ((!$found) && ($i<count($contacts))) {
+		while ($i<count($contacts)) {
 
 			// If the id has been checked
 			if (in_array($contacts[$i], $this->checked)) {
@@ -149,6 +148,11 @@ class Challenge07
 			
 			$contacts = $aux;
 			$i++;
+		}
+
+		// Search the id b in the contact list
+		if (!$this->search_id_b_in_contacts($contacts)) {
+			echo "Not connected";			
 		}
 	}
 
