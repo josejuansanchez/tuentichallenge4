@@ -1,6 +1,3 @@
-Tuenti Challenge 4
-==================
-
 [![Tuenti Challenge 4](https://contest.tuenti.net/resources/logo.png)](https://contest.tuenti.net/)
 
 This repository contains the solutions for the challenges: 1, 2, 3, 4, 5, 6 y 7.
@@ -12,5 +9,5 @@ It's a contest that consists of some typical programming challenges, and other c
 #### Date
 1st Phase: from April 28th to May 5th, 2014
 
-[José Juan Sánchez Hernández](http://josejuansanchez.org)
+[José Juan Sánchez Hernández](http://josejuansanchez.org)  
 License: GPL
