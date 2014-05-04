@@ -12,6 +12,6 @@ It's a contest that consists of some typical programming challenges, and other c
 #### Date
 1st Phase: from April 28th to May 5th, 2014
 
-#### License
-[GPL3](http://www.gnu.org/licenses/gpl-3.0.html)  
+#### Developed by
 [José Juan Sánchez Hernández](http://josejuansanchez.org)
+[@josejuansannchez](http://www.twitter.com/josejuansanchez)
