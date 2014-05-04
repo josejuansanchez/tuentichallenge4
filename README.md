@@ -13,5 +13,5 @@ It's a contest that consists of some typical programming challenges, and other c
 1st Phase: from April 28th to May 5th, 2014
 
 #### Developed by
-[José Juan Sánchez Hernández](http://josejuansanchez.org)
+[José Juan Sánchez Hernández](http://josejuansanchez.org)  
 [@josejuansannchez](http://www.twitter.com/josejuansanchez)
