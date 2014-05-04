@@ -10,4 +10,4 @@ It's a contest that consists of some typical programming challenges, and other c
 1st Phase: from April 28th to May 5th, 2014
 
 [José Juan Sánchez Hernández](http://josejuansanchez.org)  
-License: [GPL4](http://www.gnu.org/licenses/gpl-3.0.html)
+License: [GPL3](http://www.gnu.org/licenses/gpl-3.0.html)
