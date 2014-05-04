@@ -1,9 +1,9 @@
 1
 
-Goran, Javier, Andrew
-Bartek, , Ivan
-Ignacio, Einar, Vincent
+Javier, Andrew, Vincent
+Marcio, , Bartek
+Einar, Goran, Ignacio
 
-Javier, Andrew, Goran
-Bartek, , Ivan
-Ignacio, Einar, Vincent
+Andrew, Vincent, Javier
+Marcio, , Bartek
+Einar, Goran, Ignacio

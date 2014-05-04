@@ -110,9 +110,6 @@ public class Board {
     // is this board the goal board?
     public boolean isGoal() {
 
-        // TEST
-        //System.out.println("Board: isGoal");
-
         /*
         if (blocks[dim - 1][dim - 1] != 0)
             return false;
@@ -126,22 +123,12 @@ public class Board {
         return true;
         */
 
-        // TEST   
-        /*     
-        if (blocks[0][0]==1 && blocks[0][1]==2 && blocks[0][2]==3 &&
-            blocks[1][0]==4 && blocks[1][1]==0 && blocks[1][2]==5 &&
-            blocks[2][0]==6 && blocks[2][1]==7 && blocks[2][2]==8) {
-            return true;
-        } else {
-            return false;
-        }      
-        */  
-
+        // TEST           
         for (int row = 0; row < dim; row++)
             for (int col = 0; col < dim; col++)
                 if (blocks[row][col] != Target.target[row][col])
                     return false;
-        return true;
+        return true;        
     }
 
     // does this board equal y?
@@ -160,10 +147,6 @@ public class Board {
     private short[][] swap(short[][] array, int fromRow, int fromCol, int toRow,
                          int toCol) {
 
-        // TEST
-        //System.out.println("swap: fromRow: " + fromRow + "\t" + "fromCol: " + fromCol);
-        //System.out.println("swap: toRow: " + toRow + "\t" + "toCol: " + toCol);
-
         short[][] copy = copySquareArray(array);
         short tmp = copy[toRow][toCol];
         copy[toRow][toCol] = copy[fromRow][fromCol];
@@ -175,7 +158,7 @@ public class Board {
     public Iterable<Board> neighbors() {
         Queue<Board> q = new Queue<Board>();
         
-        // TEST                
+        // TEST
         /*
         // Find zero
         int row = 0;
@@ -199,11 +182,8 @@ public class Board {
         if (col < dim - 1)
             q.enqueue(new Board(swap(blocks, row, col, row, col + 1)));
         */
-        
+
         // TEST
-        q.enqueue(new Board(swap(blocks, 0, 2, 0, 0)));
-
-
         q.enqueue(new Board(swap(blocks, 0, 0, 0, 1)));
         q.enqueue(new Board(swap(blocks, 0, 0, 0, 2)));
         q.enqueue(new Board(swap(blocks, 0, 1, 0, 2)));

@@ -65,7 +65,7 @@ public class Solver {
 
             // TEST
             cont++;
-            if (cont >= 1000) return null;
+            if (cont >= 125500) return null;
         }
     }
 
@@ -125,30 +125,31 @@ public class Solver {
                 }                
             }                
 
-            //for (int j=0; j < names.size(); j++) {
-            //    System.out.println("names: " + j + "\t names: " + names.get(j));
-            //}
+            /*
+            for (int j=0; j < names.size(); j++) {
+                System.out.println("names: " + j + "\t names: " + names.get(j));
+            }
+            */
 
             // Initialize the initial table        
             int index = 1;
             for (int j = 0; j < SIZE; j++) {
                 for (int k = 0; k < SIZE; k++) {
-                        if (j==1 && k==1) {
-                            blocks[i][j][k] = 0;
-                        } else {
-                            blocks[i][j][k] = index++;    
-                        }
+                    if (j==1 && k==1) {
+                        blocks[i][j][k] = 0;
+                    } else {
+                        blocks[i][j][k] = index++;    
+                    }
                 }                
             }
 
-            /*
+            System.out.println("Initial:");
             for (int j = 0; j < SIZE; j++) {
                 for (int k = 0; k < SIZE; k++) {
                     System.out.print(blocks[i][j][k] + " ");
                 }
                 System.out.println("");
             }
-            */
             
             // Read a blank line
             in.readLine();
@@ -167,16 +168,6 @@ public class Solver {
             for (int j=0; j < names_goal.size(); j++) {
                 System.out.println("names_goal: " + j + "\t names_goal: " + names_goal.get(j));
             }
-
-            for (int j=0; j < names_goal.size(); j++) {
-                if (names_goal.get(j).equals("")) {
-                    // index 0
-                    System.out.println("Index: 0");
-                } else {
-                    int indexkk = names.indexOf(names_goal.get(j)) + 1;
-                    System.out.println("Index: " + indexkk);
-                }
-            }
             */
 
             int ing = 0;
@@ -193,7 +184,6 @@ public class Solver {
                 }                
             }
 
-            /*
             System.out.println("Goals:");
             for (int j = 0; j < SIZE; j++) {
                 for (int k = 0; k < SIZE; k++) {
@@ -201,7 +191,6 @@ public class Solver {
                 }
                 System.out.println("");
             }
-            */
 
             // Read a blank line
             line = in.readLine();
@@ -222,19 +211,3 @@ public class Solver {
         }
     }
 }
-
-        /*
-        Board initial = new Board(blocks[0]);
-        StdOut.println(initial);
-        
-        // solve the puzzle
-        Solver solver = new Solver(initial);
-
-        // print solution to standard output
-        if (!solver.isSolvable())
-            StdOut.println("No solution possible");
-        else {
-            StdOut.println("Minimum number of moves = " + solver.moves());
-            for (Board board : solver.solution())
-                StdOut.println(board);                
-        */
