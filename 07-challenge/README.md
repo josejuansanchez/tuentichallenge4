@@ -6,7 +6,7 @@ You work for the NSA and your mission is to monitor the two most dangerous terro
 
 Given a log of phone calls represented as a pair of integers (where each integer is the ID of a person), and given the ID of terrorist A and terrorist B, write a program that prints “Connected at <phone_call_index>” where <phone_call_index> is the index of the phone call in the log (starting with 0) at which terrorist A and terrorist B become connected through a list of contacts, or prints “Not connected” if terrorist A and terrorist B are not connected after processing all phone calls.
 
-The phone call log consists of a file with 106 lines. Each line is a pair of integers X and Y separated by one space, representing a phone call between $X$ and $Y$, with $0 <= X < 109$ and 0 <= Y < 109. The phone call log is always the same and can be downloaded here: phone_call.log.gz
+The phone call log consists of a file with 10^6 lines. Each line is a pair of integers X and Y separated by one space, representing a phone call between X and Y, with 0 <= X < 10^9 and 0 <= Y < 10^9. The phone call log is always the same and can be downloaded here: phone_call.log.gz
 
 The terrorist IDs are provided as two integers, one per line, as the problem’s input.
 
