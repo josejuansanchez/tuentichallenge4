@@ -56,7 +56,7 @@ In order to clarify what we want and how we want it, below are some examples of 
 ````
 
 #### Expected output
-
+````
 /---------\
 |         |
 |       /-/
@@ -65,3 +65,4 @@ In order to clarify what we want and how we want it, below are some examples of 
      |                |
      |                |
      \----------------/
+````
