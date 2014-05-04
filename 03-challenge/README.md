@@ -2,13 +2,13 @@
 
 Guybrush Threepwood has found an illegal gambling wheel in an alley.
 
-![Gambler's Club - Spinning wheel](https://contest.tuenti.net/resources/img/wheel.gif)]
+<center><img src="https://contest.tuenti.net/resources/img/wheel.gif" alt="Gambler's Club - Spinning wheel"></center>
 
 Guybrush is not able to win, but there's a guy in his fancy green pants who wins every time he plays. But there's something suspicious about him. Every time he wins, he goes away and comes back a few minutes later.
 
 You decide to follow him and watch him receive the next winning number from a man behind a door. You just have to give him the right password in order to receive the number. Later you will learn that you have discovered **"The Gambler's Club"**.
 
-![Gambler's Club - Secret society](https://contest.tuenti.net/resources/img/gamblersclub.png =640x400)
+<center><img src="https://contest.tuenti.net/resources/img/wheel.gif" alt="Gambler's Club - Secret society" width="640" height="400"></center>
 
 You decide to help Guybrush, so you knock on the door and try to obtain the next winning number.
 
