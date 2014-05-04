@@ -8,7 +8,7 @@ Guybrush is not able to win, but there's a guy in his fancy green pants who wins
 
 You decide to follow him and watch him receive the next winning number from a man behind a door. You just have to give him the right password in order to receive the number. Later you will learn that you have discovered **"The Gambler's Club"**.
 
-![Gambler's Club - Secret society](https://contest.tuenti.net/resources/img/gamblersclub.png)
+![Gambler's Club - Secret society](https://contest.tuenti.net/resources/img/gamblersclub.png =640x400)
 
 You decide to help Guybrush, so you knock on the door and try to obtain the next winning number.
 
